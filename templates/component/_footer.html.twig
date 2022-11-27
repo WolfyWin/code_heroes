@@ -1,0 +1,10 @@
+<footer class="wall">
+    {% if connected %}
+        <a href="{{ path('user_logout') }}" class="bigbutton bigbutton-orange bigbutton-small">
+            Déconnexion
+        </a>
+        <a href="{{ path('user_delete') }}" class="bigbutton bigbutton-red bigbutton-small">
+            Supprimer mon compte
+        </a>
+    {% endif %}
+</footer>

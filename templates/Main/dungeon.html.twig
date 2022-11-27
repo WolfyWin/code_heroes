@@ -1,0 +1,26 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Code Heroes
+{% endblock %}
+
+
+{% block content %}
+    <section class="full-map dungeon-map">
+        <h2>
+            {{ theDungeon.name }}
+        </h2>
+
+        <div class="choose">
+        
+            <a class="bigbutton bigbutton-brown" href="{{ path('main_lesson', { id: theDungeon.id }) }}">Cours</a>
+            <a class="bigbutton bigbutton-brown" href="{{ path('main_battle', { id: theDungeon.id, round: 0 }) }}">Boss</a>
+        </div>
+
+        <a class="bigbutton bigbutton-green back" href="./map">
+            Retour
+        </a>
+    </section>
+
+{% endblock %}
+

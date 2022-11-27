@@ -1,0 +1,44 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Code Heroes
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="empty-map">
+
+        <h2>
+            {% if right and round == 2 %}
+                Félicitations
+                <br>
+                Tu as vaincu ton adversaire !
+            {% elseif right %}
+                Bonne réponse !
+            {% else %}
+                <span class="text-red">You died</span>
+            {% endif %}
+        </h2>
+
+        <div>
+            {% if right and round == 2 %}
+                <a class="bigbutton bigbutton-brown" href="{{ path('main_map') }}">
+                    Continuer
+                </a>
+            {% elseif right %}
+                <a class="bigbutton bigbutton-brown" href="{{ path('main_battle', { id: theDungeon.id, round: round + 1 }) }}">
+                    Continuer
+                </a>
+            {% else %}
+                <img src="{{ asset( '/build/images/fire.gif' ) }}" class="game-over" />
+                <a class="bigbutton bigbutton-green" href="{{ path( 'main_map' ) }}">
+                    Retour
+                </a>
+            {% endif %}
+
+        </div>
+
+    </section>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Code Heroes
+{% endblock %}
+
+{% block content %}
+
+    <section class="empty-map lesson-map">
+
+        <h2>
+            Les savoirs de maître Yacine
+        </h2>
+
+        <h3>
+            {{ theDungeon.name }}
+        </h3>
+
+        <p class="dungeon-lesson">
+            {{ theDungeon.lesson }}
+        </p>
+
+        <div class="boss">
+            <a class="bigbutton bigbutton-brown" href="{{ path('main_battle', { id: theDungeon.id, round: 0 }) }}">
+                Boss
+            </a>
+        </div>
+    </section>
+
+    <div class="bubble-text">
+        <p>
+            Lis bien le cours dude!
+        </p>
+    </div>
+
+    <div class="prof-lesson">
+        <img class="prof-lesson-img" src="{{ asset('build/images/prof.gif') }}">
+    </div>
+{% endblock %}

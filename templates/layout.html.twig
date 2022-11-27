@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="./assets/images/sword.png">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fondamento&family=IM+Fell+English&display=swap" rel="stylesheet">
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+
+    {% if (round ?? -1) >= 0 %}
+        <body class="{{ (round ?? -1) >= 0 ? 'battle-background' : '' }}" style="background-image: url({{ asset('./assets/images/battleback0' ~ (theDungeon.id ?? 1) ) }}.png');">
+    {% else %}
+        <body>
+    {% endif %}
+
+
+    {% include 'component/_header.html.twig' %}
+
+    <main> {# class if pour changer main #}
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'component/_footer.html.twig' %}
+
+    {% block javascript %}{% endblock %}
+</body>
+</html>
+
+

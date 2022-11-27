@@ -1,0 +1,38 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Code Heroes
+{% endblock %}
+
+{% block content %}
+    <div class="empty-map">
+        <h2>Connexion</h2>
+
+        <form action="" method="POST" class="login-form">
+
+            <div>
+                <label for="name">Nom</label>
+                <input required type="text" id="name" name="name" placeholder="Nom">
+            </div>
+
+            <div>
+                <label for="password">Mot de passe</label>
+                <input required type="password" id="password" name="password" placeholder="Mot de passe">
+            </div>
+
+            <p class="error-message">
+                {{ error ?? "" }}
+            </p>
+
+            <div class="buttons">
+                <button class="bigbutton bigbutton-red bigbutton-small" value="back" onclick="history.go(-1)">
+                    Retour
+                </button>
+
+                <button class="bigbutton bigbutton-blue bigbutton-small" type="submit">
+                    Start !
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Code Heroes
+{% endblock %}
+
+{% block content %}
+    <section class="boxCharacter">
+        <section class="character">
+            <h3>
+                {{ user.name }}
+            </h3>
+            <div>
+                <img src="{{ asset('build/images/character.png') }}" class="character-img" />
+            </div>
+            <h4>
+                Développeur
+                <br>
+                {% if ( user.dungeons | length ) < 2 %}
+                    Junior
+                {% elseif ( user.dungeons | length ) < 7 %}
+                    Confirmé
+                {% else %}
+                    Senior
+                {% endif %}                
+            </h4>
+            <h2 class="dev-level">
+                Lv. {{ ( user.dungeons | length ) + 1 }}
+            </h2>
+        </section>
+    </section>
+
+    <section class="full-map">
+
+        {% for dungeon in allDungeons %}
+            {# On barre les donjons complétés avec la classe strike #}
+            <a href="{{ path('main_dungeon', { id: dungeon.id }) }}" class="dungeon-marker {{ dungeon.id in user.dungeonsId ? 'strike' : '' }}">
+                {{ dungeon.name }}
+            </a>
+        {% endfor %}
+
+    </section>
+
+    <section class="prof">
+        <img class="prof-img" src="{{ asset('build/images/prof.gif') }}">
+    </section>
+{% endblock %}
+
+
+
+

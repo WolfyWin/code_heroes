@@ -1,0 +1,64 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Code Heroes
+{% endblock %}
+
+
+{% block content %}
+
+    <section>
+        {# ======================================================================================================== #}
+        {#                                                Boss layout                                               #}
+        {# ======================================================================================================== #}
+        <section class="boss-layout">
+
+            <h3 class="question">
+                {{ theQuestion.title }}
+            </h3>
+
+            <div class="boss-part">
+                <h3 class="boss-name">
+                    {{ theDungeon.bossName }}
+                </h3>
+
+                <div class="health-bar">
+                    <div class="empty">
+                        {# ON calcule la taille de la barre de vie en fonction du round actuel
+                        actuellement c'est 3 question par donjon donc 33% de vie par round #}
+                        <div class="current" style="width: {{ ( 1 - ( ( round ) / 3 ) ) * 100 }}%"></div>
+                    </div>
+                </div>
+
+                <div class="bss-img">
+                    <img src="{{ asset('build/images/' ~ theDungeon.bossAvatarUrl ) }}" alt="Boss theDungeon.name">
+                </div>
+            </div>
+
+        </section>
+
+        {# ======================================================================================================== #}
+        {#                                                Hero layout                                               #}
+        {# ======================================================================================================== #}
+
+        <section class="hero-layout">
+            <div class="battle-character">
+                <img src="{{ asset('build/images/character.png') }}" class="hero" />
+            </div>
+            <div class="answers" style="">
+                {% for answer in answers %}
+                    <form action="{{ path( 'main_answer', { id: theDungeon.id, round: round } ) }}" method="post">
+                        <button type="submit" class="answers-button">
+                            {{ answer }}
+                        </button>
+                        <input type="hidden" name="id"     value="{{ theDungeon.id }}" />
+                        <input type="hidden" name="round"  value="{{ round }}" />
+                        <input type="hidden" name="answer" value="{{ answer }}" />
+                    </form>
+                {% endfor %}
+            </div>
+        </section>
+
+    </section>
+
+{% endblock %}
