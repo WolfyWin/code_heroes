@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'app:fixtures:reload', description: 'Reload fixtures')]
+#[AsCommand(name: 'app:fixtures:reload', description: 'Reload fixtures', aliases: ['purify'])]
 class FixturesReloadCommand extends Command
 {
     protected function configure()
@@ -58,6 +58,16 @@ class FixturesReloadCommand extends Command
         ]);
 
         $options = ['command' => 'doctrine:database:create',"--if-not-exists" => true];
+        $application->run(new ArrayInput($options));
+
+        $output->writeln([
+            '===================================================',
+            '*********            Migrations           *********',
+            '===================================================',
+            '',
+        ]);
+
+        $options = ['command' => 'make:migration', "--no-interaction" => true];
         $application->run(new ArrayInput($options));
 
         $output->writeln([
