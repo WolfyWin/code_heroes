@@ -4,6 +4,11 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
 use App\Entity\Dungeon;
 use App\Entity\Question;
 use App\Entity\User;
@@ -13,6 +18,13 @@ use Faker\Factory;
 
 class AppFixtures extends Fixture
 {
+    private $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher) 
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
     public const DUNGEONS = [
         [
             'name' => 'Altus Plateau',
@@ -82,10 +94,11 @@ class AppFixtures extends Fixture
         }
 
         // Création d'un utilisateur
-        $user = new User();
-        $user->setName('pofpof');
-        $user->setPassword( password_hash('pofpof', PASSWORD_BCRYPT) );
-        $manager->persist($user);
+        $admin = new User();
+        $admin->setName('pofpof');
+        $admin->setRoles(['ROLE_USER']);
+        $admin->setPassword( $this->passwordHasher->hashPassword( $admin, 'pofpof' ));
+        $manager->persist($admin);
         $manager->flush();
     }
 }

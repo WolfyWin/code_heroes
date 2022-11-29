@@ -32,6 +32,16 @@ class FixturesReloadCommand extends Command
 
         $output->writeln([
             '===================================================',
+            '*********     Removing old Migrations     *********',
+            '===================================================',
+            '',
+        ]);
+        
+        // Remove old migrations files
+        $command = exec('rm -rf migrations/*');
+
+        $output->writeln([
+            '===================================================',
             '*********        Dropping DataBase        *********',
             '===================================================',
             '',
@@ -39,7 +49,6 @@ class FixturesReloadCommand extends Command
 
         $options = ['command' => 'doctrine:database:drop',"--force" => true];
         $application->run(new ArrayInput($options));
-
 
         $output->writeln([
             '===================================================',
@@ -58,8 +67,7 @@ class FixturesReloadCommand extends Command
             '',
         ]);
 
-        //Create de Schema
-        $options = ['command' => 'doctrine:schema:update',"--force" => true];
+        $options = ['command' => 'doctrine:schema:update', "--force" => true];
         $application->run(new ArrayInput($options));
 
         $output->writeln([

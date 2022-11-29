@@ -1,5 +1,5 @@
 <footer class="wall">
-    {% if connected %}
+    {% if app.user %}
         <a href="{{ path('user_logout') }}" class="bigbutton bigbutton-orange bigbutton-small">
             Déconnexion
         </a>

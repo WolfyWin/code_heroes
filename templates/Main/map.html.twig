@@ -8,7 +8,7 @@
     <section class="boxCharacter">
         <section class="character">
             <h3>
-                {{ user.name }}
+                {{ app.user.name }}
             </h3>
             <div>
                 <img src="{{ asset('build/images/character.png') }}" class="character-img" />
@@ -16,16 +16,16 @@
             <h4>
                 Développeur
                 <br>
-                {% if ( user.dungeons | length ) < 2 %}
+                {% if ( app.user.dungeons | length ) < 2 %}
                     Junior
-                {% elseif ( user.dungeons | length ) < 7 %}
+                {% elseif ( app.user.dungeons | length ) < 6 %}
                     Confirmé
                 {% else %}
                     Senior
-                {% endif %}                
+                {% endif %}
             </h4>
             <h2 class="dev-level">
-                Lv. {{ ( user.dungeons | length ) + 1 }}
+                Lv. {{ ( app.user.dungeons | length ) + 1 }}
             </h2>
         </section>
     </section>
@@ -34,7 +34,7 @@
 
         {% for dungeon in allDungeons %}
             {# On barre les donjons complétés avec la classe strike #}
-            <a href="{{ path('main_dungeon', { id: dungeon.id }) }}" class="dungeon-marker {{ dungeon.id in user.dungeonsId ? 'strike' : '' }}">
+            <a href="{{ path('main_dungeon', { id: dungeon.id }) }}" class="dungeon-marker {{ dungeon.id in app.user.dungeonsId ? 'strike' : '' }}">
                 {{ dungeon.name }}
             </a>
         {% endfor %}

@@ -5,25 +5,23 @@ namespace App\Controller;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-use App\Repository\DungeonRepository;
-use App\Repository\QuestionRepository;
-use App\Controller\BaseController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use App\Entity\Dungeon;
 use App\Entity\Question;
 use App\Entity\User;
+use App\Repository\DungeonRepository;
+use App\Repository\QuestionRepository;
 
-class MainController extends BaseController
+class MainController extends AbstractController
 {
     #[Route('/', name:'main_home')]
     public function home(): Response
     {
-        // Si on est déjà connecté on envoi directement vers la map
-        if( isset( $_SESSION['connected'] ) )
+        // Si on est connecté on redirige directement vers la map
+        if( $this->getUser() != null )
         {
-            header('Location: ./map');
-            exit();
+            return $this->redirectToRoute('main_map');
         }
         return $this->render('Main/home.html.twig');
     }
@@ -31,13 +29,6 @@ class MainController extends BaseController
     #[Route('/map', name:'main_map')]
     public function map(DungeonRepository $dungeonRepository): Response
     {
-        // Si on est PAS connecté on renvoi directement vers l'accueil
-        if( !isset( $_SESSION['connected'] ) )
-        {
-            header('Location: ./');
-            exit();
-        }
-
         $allDungeons = $dungeonRepository->findAll();
 
         return $this->render('Main/map.html.twig', [
@@ -48,14 +39,6 @@ class MainController extends BaseController
     #[Route('/dungeon/{id}', name:'main_dungeon')]
     public function dungeon(Dungeon $theDungeon): Response
     {
-        // Si on est PAS connecté on renvoi directement vers l'accueil
-        if( !isset( $_SESSION['connected'] ) )
-        {
-            header('Location: ./');
-            exit();
-        }
-
-
         if($theDungeon != false)
         {
             return $this->render('Main/dungeon.html.twig', [ "theDungeon" => $theDungeon ]);
@@ -72,13 +55,6 @@ class MainController extends BaseController
     #[Route('/dungeon/{id}/lesson', name:'main_lesson')]
     public function lesson(Dungeon $theDungeon): Response
     {
-        // Si on est PAS connecté on renvoi directement vers l'accueil
-        if( !isset( $_SESSION['connected'] ) )
-        {
-            header('Location: ./');
-            exit();
-        }
-
         if($theDungeon != false)
         {
             return $this->render('Main/lesson.html.twig', [ "theDungeon" => $theDungeon ]);;
@@ -95,13 +71,6 @@ class MainController extends BaseController
     #[Route('/dungeon/{id}/battle/{round}', methods: ['GET'], name:'main_battle')]
     public function battle( QuestionRepository $questionRepository , Dungeon $theDungeon, int $round = 0 ): Response
     {
-        // Si on est PAS connecté on renvoi directement vers l'accueil
-        if( !isset( $_SESSION['connected'] ) )
-        {
-            header('Location: ./');
-            exit();
-        }
-
         // RÉcupération de la question a partir de l'id du donjon et du numéro de round avec le questionRepository
         $theQuestion = $questionRepository->findBy( ['dungeon_id' => $theDungeon->getId() ], ['id' => 'ASC'] )[$round];
 
@@ -134,13 +103,6 @@ class MainController extends BaseController
     {
         $entityManager = $doctrine->getManager();
 
-        // Si on est PAS connecté on renvoi directement vers l'accueil
-        if( !isset( $_SESSION['connected'] ) )
-        {
-            header('Location: ./');
-            exit();
-        }
-
         $questionModel = new Question();
         $theQuestion = $entityManager->getRepository(Question::class)->findBy( ['dungeon_id' => $theDungeon->getId() ], ['id' => 'ASC'] )[$round];
 
@@ -154,16 +116,13 @@ class MainController extends BaseController
             // Pour l'instant, 3 questions par donjon
             if( $round == 2 && $isRight )
             {
-                $user = $entityManager->getRepository(User::class)->findOneBy( ['id' => $_SESSION['user']->getId() ] );
-                $user->addDungeon( $theDungeon );
-                $entityManager->persist( $user );                
+                $this->getUser()->addDungeon( $theDungeon );
+                $entityManager->persist( $this->getUser() );
                 $entityManager->flush();
 
-                $theDungeon->addUser( $user );
-                $entityManager->persist( $theDungeon );                
+                $theDungeon->addUser( $this->getUser() );
+                $entityManager->persist( $theDungeon );
                 $entityManager->flush();
-
-                $_SESSION['user'] = $user;
             }
 
             return $this->render('Main/answer.html.twig', [
