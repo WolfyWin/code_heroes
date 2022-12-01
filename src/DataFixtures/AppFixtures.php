@@ -95,7 +95,7 @@ class AppFixtures extends Fixture
 
         // Création d'un utilisateur
         $admin = new User();
-        $admin->setName('pofpof');
+        $admin->setName('admin');
         $admin->setRoles(['ROLE_USER']);
         $admin->setPassword( $this->passwordHasher->hashPassword( $admin, 'pofpof' ));
         $manager->persist($admin);

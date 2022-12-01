@@ -2,6 +2,11 @@
 /*              Generic
 /* ============================================ */
 
+* *
+{
+    user-select: none !important;
+}
+
 body {
     background-image: url("../images/a51668b32ae4aa9968f9ad95316c2fc3.jpg");
     background-repeat: repeat;
@@ -77,6 +82,13 @@ h3 {
 
 ul li {
     color: brown;
+}
+
+.success-message {
+    text-align: center;
+    color: rgb(0, 162, 54);
+    font-weight: bold;
+    margin-bottom: 0.8em;
 }
 
 .error-message {
