@@ -15,13 +15,17 @@ class FixturesReloadCommand extends Command
     {
         $this
             // the name of the command (the part after "bin/console")
+            // Le nom de la commande (la partie après "bin/console")
             ->setName('app:fixtures:reload')
 
             // the short description shown while running "php bin/console list"
+            // La description courte affichée lors de l'exécution de "php bin/console list"
             ->setDescription('Drop/Create Database and load Fixtures ....')
 
             // the full command description shown when running the command with
             // the "--help" option
+            // La description complète de la commande affichée lors de l'exécution de la commande avec
+            // l'option "--help"
             ->setHelp('This command allows you to load dummy data by recreating database and loading fixtures...');
     }
 

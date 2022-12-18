@@ -29,6 +29,7 @@ class MainController extends AbstractController
     #[Route('/map', name:'main_map')]
     public function map(DungeonRepository $dungeonRepository): Response
     {
+        // Récupération de tous les donjons
         $allDungeons = $dungeonRepository->findAll();
 
         return $this->render('Main/map.html.twig', [
@@ -74,6 +75,7 @@ class MainController extends AbstractController
         // RÉcupération de la question a partir de l'id du donjon et du numéro de round avec le questionRepository
         $theQuestion = $questionRepository->findBy( ['dungeon_id' => $theDungeon->getId() ], ['id' => 'ASC'] )[$round];
 
+        // Vérification de l'input utilisateur
         if( $theDungeon != false AND $theQuestion != false )
         {
             // On met les questions dans un tableau qu'on mélange avec shuffle()
@@ -103,6 +105,7 @@ class MainController extends AbstractController
     {
         $entityManager = $doctrine->getManager();
 
+        // Récupération de la question a partir de l'id du donjon et du numéro de round
         $questionModel = new Question();
         $theQuestion = $entityManager->getRepository(Question::class)->findBy( ['dungeon_id' => $theDungeon->getId() ], ['id' => 'ASC'] )[$round];
 
@@ -116,6 +119,7 @@ class MainController extends AbstractController
             // Pour l'instant, 3 questions par donjon
             if( $round == 2 && $isRight )
             {
+                // Ajout du donjon à la liste des donjons terminés de l'utilisateur
                 $this->getUser()->addDungeon( $theDungeon );
                 $entityManager->persist( $this->getUser() );
                 $entityManager->flush();

@@ -1,16 +1,8 @@
-# Pour créer une nouvelle page sans symfony:
+# Etapes à suivre
 
-1. Créer une nouvelle route dans routes.php,
-2. Créer la méthode du controller définie dans la route VIDE,
-3. Créer et render le template twig associé,
-4. Dans la méthode du controller récupérer les données de la BDD grâce au Models,
-5. Créer les models si nécessaire (autant que d’entités du mcd),
-6. transmettre les données récupérées au twig,
-7. afficher les données transmises dans le twig,
-8. mettre à jour les liens vers cette nouvelle page.
-
-# Pour créer une nouvelle page avec symfony:
-
-1. Créer le controleur 
-2. Créer la route  #[Route] = #[attributeName(key: value)]
-3. Créer la vue correspondante  dans templates
+1. Créer une entité avec make:entity
+2. Créer une migration avec make:migration
+3. Exécuter les migrations avec doctrine:migrations:migrate
+4. Créer un controller avec make:controller
+5. Vérifier la route générée (en annotant la méthode du controller)
+6. Coder la route dans le controller

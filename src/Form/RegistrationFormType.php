@@ -20,6 +20,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'label' => 'Nom d\'utilisateur',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un nom',

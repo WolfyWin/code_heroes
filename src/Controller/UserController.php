@@ -36,61 +36,6 @@ class UserController extends AbstractController
     /*                                                           Signup                                                                          */
     /* ==========================================================================================================================================*/
 
-    // #[Route('/signup', name:'user_signup')]
-    // public function signup( UserRepository $userRepository, ManagerRegistry $doctrine )
-    // {
-    //     // Si le formulaire à été soumis
-    //     if(!empty($_POST))
-    //     {
-    //         // Recupére le login saisi par le user dans le champ login + sécurisation
-    //         $name = trim( $_POST['name'] );
-    //         $name = stripslashes($name);
-    //         $name = htmlspecialchars($name);
-
-    //         // Si le nom ne correspond pas au pattern
-    //         if( !preg_match("/^[A-Za-z-_]+$/",$name) )
-    //         {
-    //             return $this->render('User/signup.html.twig', ['error' => "Name can only contain letter, dashes and underscores"]);
-    //         }
-
-    //         // Cherche en BDD un user dont le nom est celui saisi
-    //         $existingUser = $userRepository->findOneBy( [ 'name' => $name ] );
-
-    //         // Vérifie si l'utilisateur existe déjà
-    //         if( $existingUser )
-    //         {
-    //             return $this->render('User/signup.html.twig', ['error' => "Username already taken"]);
-    //         }
-
-    //         // si pas de correspondance entre les mdp retourne une erreur
-    //         elseif( $_POST['password_1'] != $_POST['password_2'] )
-    //         {
-    //             return $this->render('User/signup.html.twig', ['error' => "Password does not match confirmation"]);
-    //         }
-
-    //         // Sinon sauvegarder les info en bdd
-    //         else
-    //         {
-    //             // Création du User
-    //             $newUser = new User();
-    //             $newUser->setName( $name );
-    //             $newUser->setPassword( password_hash( $_POST['password_1'], PASSWORD_DEFAULT ) );
-
-    //             // Save en BDD
-    //             $entityManager = $doctrine->getManager();
-    //             $entityManager->persist($newUser);
-    //             $entityManager->flush();
-
-    //             // Redirection
-    //             return $this->redirectToRoute('main_map');
-    //         }
-    //     }
-    //     else
-    //     {
-    //         return $this->render('User/signup.html.twig');
-    //     }
-    // }
-
     #[Route('/signup', name: 'user_signup')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
@@ -110,7 +55,6 @@ class UserController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
             $this->addFlash('success', 'Compte créé avec succès, vous pouvez vous connecter :)');
             return $this->redirectToRoute('user_login');
